@@ -5,7 +5,6 @@ import { motion, useAnimation } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Button } from '@/components/ui/button';
 import { Play, Video, Upload, Download, ChevronRight } from 'lucide-react';
-import { useSignUp } from '@clerk/nextjs';
 
 export default function AIAdsGeneratorLanding() {
 	const controls = useAnimation();

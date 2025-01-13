@@ -7,12 +7,16 @@ const Navbar = () => {
 	const { isSignedIn } = useAuth();
 	return (
 		<nav className='flex items-center justify-between max-md:px-3  px-8 h-[70px] bg-gradient-to-r from-gray-950 via-gray-800 to-gray-950 shadow-2xl text-white fixed top-0 w-[100vw]'>
-			<div className='flex items-center space-x-2'>
-				<FileVideoIcon size={36} className='max-md:h-7' color='#c084fc' />
-				<h1 className='text-xl max-md:text-lg font-bold text-[#c084fc]'>AI Ads Generator</h1>
-			</div>
+			<Link href='/'>
+				<div className='flex items-center space-x-2'>
+					<FileVideoIcon size={36} className='max-md:h-7' color='#c084fc' />
+					<h1 className='text-xl max-md:text-lg font-bold text-[#c084fc]'>
+						AI Ads Generator
+					</h1>
+				</div>
+			</Link>
 			<div className='text-white flex gap-10'>
-				<Link href='/home' className='max-sm:hidden'>
+				<Link href='/generate-ad' className='max-sm:hidden'>
 					<div className='flex gap-1 items-center bg-gray-800 rounded-full p-2 font-semibold text-[#db2777] cursor-pointer hover:bg-gray-900'>
 						<PlusCircleIcon color='#db2777' /> Generate Ad
 					</div>

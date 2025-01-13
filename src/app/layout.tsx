@@ -27,7 +27,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<ClerkProvider appearance={{ baseTheme: dark }}>
-			<html lang='en'>
+			<html lang='en' className='scrollbar-hide'>
 				<body
 					className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 				>
