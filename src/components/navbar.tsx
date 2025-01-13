@@ -14,7 +14,7 @@ const Navbar = () => {
 			<div className='text-white flex gap-10'>
 				<Link href='/home' className='max-sm:hidden'>
 					<div className='flex gap-1 items-center bg-gray-800 rounded-full p-2 font-semibold text-[#db2777] cursor-pointer hover:bg-gray-900'>
-						<PlusCircleIcon color='#db2777' /> Create Ad
+						<PlusCircleIcon color='#db2777' /> Generate Ad
 					</div>
 				</Link>
 				{isSignedIn ? (

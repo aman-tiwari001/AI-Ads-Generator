@@ -39,7 +39,7 @@ export default function AIAdsGeneratorLanding() {
 	return (
 		<div className='min-h-screen bg-transparent text-white mt-[70px] no-scrollbar'>
 			<video
-				className='absolute top-[70px] left-0 w-full h-[500px] max-lg:h-[500px] max-md:h-[500px] object-cover z-[-1] brightness-[0.2]'
+				className='absolute top-[70px] left-0 w-full h-[600px] max-lg:h-[500px] max-md:h-[500px] object-cover z-[-1] brightness-[0.2]'
 				muted
 				loop
 				autoPlay
@@ -79,7 +79,7 @@ export default function AIAdsGeneratorLanding() {
 				</motion.div>
 			</header>
 
-			<section className='py-16 bg-gray-900'>
+			<section className='pt-16 pb-5 bg-gray-900'>
 				<div className='container mx-auto px-4'>
 					<motion.h2
 						className='text-3xl font-bold mb-12 text-center'
@@ -98,7 +98,7 @@ export default function AIAdsGeneratorLanding() {
 					>
 						<motion.div
 							variants={fadeInUp}
-							className='bg-gray-700 p-6 rounded-lg shadow-lg'
+							className='bg-gradient-to-r from-black via-bg-gray-900 to-gray-950 p-6 rounded-lg shadow-lg'
 						>
 							<Video className='w-12 h-12 mb-4 text-purple-400' />
 							<h3 className='text-xl font-semibold mb-2'>4K Video Quality</h3>
@@ -109,7 +109,7 @@ export default function AIAdsGeneratorLanding() {
 						</motion.div>
 						<motion.div
 							variants={fadeInUp}
-							className='bg-gray-700 p-6 rounded-lg shadow-lg'
+							className='bg-gradient-to-r from-black via-bg-gray-900 to-gray-950 p-6 rounded-lg shadow-lg'
 						>
 							<Upload className='w-12 h-12 mb-4 text-pink-400' />
 							<h3 className='text-xl font-semibold mb-2'>Easy Media Upload</h3>
@@ -120,7 +120,7 @@ export default function AIAdsGeneratorLanding() {
 						</motion.div>
 						<motion.div
 							variants={fadeInUp}
-							className='bg-gray-700 p-6 rounded-lg shadow-lg'
+							className='bg-gradient-to-r from-black via-bg-gray-900 to-gray-950 p-6 rounded-lg shadow-lg'
 						>
 							<Download className='w-12 h-12 mb-4 text-purple-400' />
 							<h3 className='text-xl font-semibold mb-2'>Instant Downloads</h3>
