@@ -2,7 +2,7 @@ import { connectToDb } from '@/config/db';
 import AdModel from '@/models/ad';
 import UserModel from '@/models/user';
 
-export default async function POST(req: Request) {
+export async function POST(req: Request) {
 	try {
 		await connectToDb();
 		const { script, creatorName, resolution, mediaUrl, generatedAdUrl, email } =
