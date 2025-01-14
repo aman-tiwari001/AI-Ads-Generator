@@ -16,6 +16,7 @@ import UploadFile from '@/components/upload';
 import Image from 'next/image';
 import { fileDownloader } from '@/utility/downloader';
 import toast from 'react-hot-toast';
+import { useUser } from '@clerk/nextjs';
 
 export default function GenerateAdPage() {
 	const [adScript, setAdScript] = useState<string>('');
@@ -31,6 +32,8 @@ export default function GenerateAdPage() {
 	const [mediaFiles, setMediaFiles] = useState<string[]>([]);
 	const [generatedVideoUrl, setGeneratedVideoUrl] = useState<string>('');
 	const [creatorsList, setCreatorsList] = useState<string[]>(['Fetching...']);
+	const { user } = useUser();
+	console.log('User: ', user?.emailAddresses[0].emailAddress);
 
 	const handleVideoDownload = async () => {
 		if (generatedVideoUrl) {
@@ -39,6 +42,30 @@ export default function GenerateAdPage() {
 				`${creator}_${resolution}_${new Date().toISOString()}.mp4`
 			);
 			toast.success('Video downloaded!');
+		}
+	};
+
+	const submitAdToDb = async () => {
+		try {
+			const res = await fetch('/api/submit-ad', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					script: adScript,
+					creatorName: creator,
+					resolution,
+					mediaUrl: mediaFiles,
+					generatedAdUrl: generatedVideoUrl,
+					email: user?.emailAddresses[0].emailAddress,
+				}),
+			});
+			const data = await res.json();
+			console.log(data);
+			toast.success('Ad saved to database!');
+		} catch (error) {
+			console.log('Error submitting ad to db: ', error);
 		}
 	};
 
@@ -68,6 +95,7 @@ export default function GenerateAdPage() {
 				setGeneratedVideoUrl(data.result.url);
 				setPollLoading(false);
 				toast.success('Ad generated!');
+				await submitAdToDb();
 			}
 		} catch (error) {
 			console.log('Error polling ad generation status: ', error);

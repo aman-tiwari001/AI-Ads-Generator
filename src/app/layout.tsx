@@ -27,12 +27,15 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<ClerkProvider appearance={{ baseTheme: dark }}>
+		<ClerkProvider
+			appearance={{ baseTheme: dark }}
+			redirectUrl={'/generate-ad'}
+		>
 			<html lang='en' className='scrollbar-hide'>
 				<body
 					className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 				>
-          <Navbar />
+					<Navbar />
 					<Toaster />
 					{children}
 				</body>

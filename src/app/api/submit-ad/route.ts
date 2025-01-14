@@ -1,6 +1,7 @@
 import { connectToDb } from '@/config/db';
 import AdModel from '@/models/ad';
 import UserModel from '@/models/user';
+import cloudinary from 'cloudinary';
 
 export async function POST(req: Request) {
 	try {
@@ -13,13 +14,25 @@ export async function POST(req: Request) {
 				{ status: 400 }
 			);
 		}
+		cloudinary.v2.config({
+			cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+			api_key: process.env.CLOUDINARY_API_KEY,
+			api_secret: process.env.CLOUDINARY_API_SECRET,
+		});
+
+		const cloud = await cloudinary.v2.uploader.upload(generatedAdUrl, {
+			resource_type: 'video',
+		});
+		console.log('Cloudinary response: ', cloud.url);
+
 		const newAd = await AdModel.create({
 			creatorName,
 			script,
 			mediaUrl,
 			resolution,
-			generatedAdUrl,
+			generatedAdUrl: cloud.url,
 		});
+		console.log('New ad: ', email);
 		const updatedUser = await UserModel.findOneAndUpdate(
 			{ email },
 			{ $push: { ads: newAd._id } },

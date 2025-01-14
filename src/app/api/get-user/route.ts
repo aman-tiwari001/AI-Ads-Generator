@@ -11,7 +11,7 @@ export async function POST(req: Request) {
         { status: 400 }
       );
     }
-    const user = await UserModel.findOne({ email });
+    const user = await UserModel.findOne({ email }).populate('ads');
     return Response.json({ success: true, result: user }, { status: 200 });
   } catch (error) {
     console.log('Error getting user: ', error);
