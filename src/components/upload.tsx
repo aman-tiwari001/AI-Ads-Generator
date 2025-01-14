@@ -5,11 +5,14 @@ import '@uploadcare/react-uploader/core.css';
 
 interface UploadFileProps {
 	type: 'script' | 'media';
-	data?: string[];
-	setUploadData?: Function;
+	data?: string | string[];
+	setUploadData?: (data: string[]) => void;
 }
-
-const handleUploadedFile = async (file: any, setUploadData: Function) => {
+// @typescript-eslint/no-explicit-any
+const handleUploadedFile = async (
+	file: unknown,
+	setUploadData: (data: string) => void
+) => {
 	const res = await fetch(file.cdnUrl);
 	const text = await res.text();
 	console.log('cdn -> ', text);
@@ -17,8 +20,8 @@ const handleUploadedFile = async (file: any, setUploadData: Function) => {
 };
 
 const handleMediaUpload = async (
-	file: any,
-	setUploadData: Function,
+	file: unknown,
+	setUploadData: (data: string[]) => void,
 	data: string[]
 ) => {
 	const fileUrl = file.cdnUrl;
@@ -39,17 +42,17 @@ const UploadFile: React.FC<UploadFileProps> = ({
 				accept={type === 'script' ? 'text/plain' : '.JPEG,.PNG,.MOV,.MP4'}
 				onFileUploadSuccess={(file) => {
 					if (type === 'script')
-						handleUploadedFile(file, setUploadData as Function);
+						handleUploadedFile(file, setUploadData);
 					else
 						handleMediaUpload(
 							file,
-							setUploadData as Function,
+							setUploadData as (data: string[]) => void,
 							data as string[]
 						);
 				}}
 				multiple={type === 'media' ? true : false}
 				className='text-white w-full'
-        multipleMax={10}
+				multipleMax={10}
 			/>
 		</div>
 	);

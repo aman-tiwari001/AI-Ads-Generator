@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import {
 	Select,
@@ -43,7 +42,10 @@ export default function GenerateAdPage() {
 		}
 	};
 
-	const pollingAdGenStatus = async (operationId: string, cleanUp: Function) => {
+	const pollingAdGenStatus = async (
+		operationId: string,
+		cleanUp: () => void
+	) => {
 		try {
 			const res = await fetch('/api/get-ad-status', {
 				method: 'POST',
@@ -69,7 +71,7 @@ export default function GenerateAdPage() {
 			}
 		} catch (error) {
 			console.log('Error polling ad generation status: ', error);
-		} 
+		}
 	};
 
 	const generateVideoAd = async () => {
@@ -260,7 +262,7 @@ export default function GenerateAdPage() {
 										className='animate-spin text-center mx-auto'
 									/>
 									<span>{adStatus.progress}%</span>
-									<span>{adStatus.state}</span>
+									<span>Status: {adStatus.state}</span>
 								</div>
 							)}
 							{generatedVideoUrl ? (
