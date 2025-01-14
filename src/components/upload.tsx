@@ -2,13 +2,13 @@
 
 import { FileUploaderRegular } from '@uploadcare/react-uploader/next';
 import '@uploadcare/react-uploader/core.css';
-//  @typescript-eslint/no-explicit-any
+
 interface UploadFileProps {
 	type: 'script' | 'media';
 	data?: string | string[];
 	setUploadData?: (data: any) => any;
 }
-// @typescript-eslint/no-explicit-any
+
 const handleUploadedFile = async (
 	file: unknown,
 	setUploadData: (data: any) => any
