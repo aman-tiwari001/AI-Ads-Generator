@@ -23,7 +23,6 @@ export async function POST(req: Request) {
 		const cloud = await cloudinary.v2.uploader.upload(generatedAdUrl, {
 			resource_type: 'video',
 		});
-		console.log('Cloudinary response: ', cloud.url);
 
 		const newAd = await AdModel.create({
 			creatorName,
@@ -32,7 +31,6 @@ export async function POST(req: Request) {
 			resolution,
 			generatedAdUrl: cloud.url,
 		});
-		console.log('New ad: ', email);
 		const updatedUser = await UserModel.findOneAndUpdate(
 			{ email },
 			{ $push: { ads: newAd._id } },

@@ -22,10 +22,9 @@ export default function HistoryPage() {
 			});
 			const data = await res.json();
 			setAdHistory(data.result.ads);
-			console.log('User Details: ', data);
 		};
 		if (user) fetchUserDetails();
-	}, [user?.emailAddresses]);
+	}, [user?.emailAddresses, user]);
 
 	return (
 		<div className='min-h-screen p-6 w-full text-white bg-gray-950'>

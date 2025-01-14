@@ -3,7 +3,6 @@
 import { useEffect } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { Button } from '@/components/ui/button';
 import { Play, Video, Upload, Download, ChevronRight } from 'lucide-react';
 import { SignUpButton } from '@clerk/nextjs';
 
@@ -30,10 +29,6 @@ export default function AIAdsGeneratorLanding() {
 				staggerChildren: 0.2,
 			},
 		},
-	};
-
-	const handleSignUp = async () => {
-		window.location.href = 'https://premium-mosquito-17.accounts.dev/sign-up';
 	};
 
 	return (

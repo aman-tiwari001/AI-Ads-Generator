@@ -33,7 +33,6 @@ export default function GenerateAdPage() {
 	const [generatedVideoUrl, setGeneratedVideoUrl] = useState<string>('');
 	const [creatorsList, setCreatorsList] = useState<string[]>(['Fetching...']);
 	const { user } = useUser();
-	console.log('User: ', user?.emailAddresses[0].emailAddress);
 
 	const handleVideoDownload = async () => {
 		if (generatedVideoUrl) {
@@ -61,8 +60,7 @@ export default function GenerateAdPage() {
 					email: user?.emailAddresses[0].emailAddress,
 				}),
 			});
-			const data = await res.json();
-			console.log(data);
+			await res.json();
 			toast.success('Ad saved to database!');
 		} catch (error) {
 			console.log('Error submitting ad to db: ', error);
@@ -84,7 +82,6 @@ export default function GenerateAdPage() {
 				}),
 			});
 			const data = await res.json();
-			console.log(data);
 			setAdStatus({
 				state: data.result.state,
 				progress: data.result.progress,
@@ -151,11 +148,9 @@ export default function GenerateAdPage() {
 	useEffect(() => {
 		const fetchCreators = async () => {
 			try {
-				console.log('Fetching creators list...');
 				const response = await fetch('/api/get-creators-list');
 				const data = await response.json();
 				setCreatorsList(data.result.supportedCreators);
-				console.log(data);
 			} catch (error) {
 				console.log('Error fetching creators list: ', error);
 			}

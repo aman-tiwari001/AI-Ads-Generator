@@ -15,7 +15,6 @@ const handleUploadedFile = async (
 ) => {
 	const res = await fetch((file as { cdnUrl: string }).cdnUrl);
 	const text = await res.text();
-	console.log('cdn -> ', text);
 	setUploadData(text);
 };
 
