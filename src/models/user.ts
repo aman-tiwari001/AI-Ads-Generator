@@ -18,7 +18,7 @@ const UserSchema: Schema<IUser> = new Schema(
 			trim: true,
 			match: /https?:\/\/(?:www\.)?[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\/\S*)?/,
 		},
-		Ads: [{ type: Schema.Types.ObjectId, ref: 'Ad' }],
+		ads: [{ type: Schema.Types.ObjectId, ref: 'Ad' }],
 	},
 	{ timestamps: true }
 );

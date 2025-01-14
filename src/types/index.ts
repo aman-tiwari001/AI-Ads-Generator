@@ -5,13 +5,13 @@ export interface IUser extends Document{
 	lastName: string;
 	email: string;
   photoUrl: string;
-	Ads: IAd[];
+	ads: IAd[];
 }
 
 export interface IAd extends Document{
 	creatorName: string;
 	script: string;
-	mediaUrl: string;
+	mediaUrl: string[];
 	resolution: 'fhd' | '4k';
 	generatedAdUrl: string;
 }

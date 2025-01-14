@@ -1,6 +1,7 @@
 export async function POST(req: Request) {
 	try {
     const { operationId } = await req.json();
+		// Requesting caption.ai to get the ad generation status
 		const response = await fetch(
 			`${process.env.CAPTION_AI_API_URL}/api/ads/poll`,
 			{

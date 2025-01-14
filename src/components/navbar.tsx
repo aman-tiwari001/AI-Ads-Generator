@@ -17,12 +17,14 @@ const Navbar = () => {
 			</Link>
 			<div className='text-white flex gap-10'>
 				<Link href='/generate-ad' className='max-sm:hidden'>
-					<div className='flex gap-1 items-center bg-gray-800 rounded-full p-2 font-semibold text-[#db2777] cursor-pointer hover:bg-gray-900'>
+					<div className='flex gap-1 items-center bg-gray-950 rounded-full p-2 font-semibold border-[#db2777] border-2 text-[#db2777] cursor-pointer hover:bg-gray-900'>
 						<PlusCircleIcon color='#db2777' /> Generate Ad
 					</div>
 				</Link>
 				{isSignedIn ? (
-					<UserButton showName />
+					<div className='bg-gradient-to-r from-purple-400 to-pink-600 px-4 py-2 hover:scale-105 rounded-full'>
+						<UserButton showName />
+					</div>
 				) : (
 					<div className='bg-gradient-to-r from-purple-400 to-pink-600 px-4 py-2 hover:scale-105 rounded-full'>
 						<SignInButton />

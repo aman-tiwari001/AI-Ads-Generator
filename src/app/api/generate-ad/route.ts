@@ -1,15 +1,7 @@
 export async function POST(req: Request) {
 	try {
 		const { adScript, creator, resolution, mediaFiles } = await req.json();
-		console.log(adScript, creator, resolution, mediaFiles);
-		// curl -X POST https://api.captions.ai/api/ads/submit -H "Content-Type: application/json" -H "x-api-key: <api-key>"
-		// -d '{"creatorName": "<creator-name>", "script": "<script>", "mediaUrls": ["media-url-1", "media-url-2", ...]}'
-    console.log(JSON.stringify({
-      creatorName: creator,
-      script: adScript,
-      mediaUrls: mediaFiles,
-      resolution: resolution,
-    }),)
+		// Requesting caption.ai to generate the ad video
 		const response = await fetch(
 			`${process.env.CAPTION_AI_API_URL}/api/ads/submit`,
 			{
@@ -27,7 +19,6 @@ export async function POST(req: Request) {
 			}
 		);
 		const data = await response.json();
-		console.log(data);
 		return Response.json({ success: true, result: data }, { status: 200 });
 	} catch (error) {
 		console.log('Error generating ad video: ', error);

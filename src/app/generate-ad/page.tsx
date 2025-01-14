@@ -12,14 +12,17 @@ import {
 	SelectValue,
 } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
-import { Video } from 'lucide-react';
+import { DownloadIcon, Video } from 'lucide-react';
 import UploadFile from '@/components/upload';
 import Image from 'next/image';
+import { fileDownloader } from '@/utility/downloader';
+import toast from 'react-hot-toast';
 
 export default function GenerateAdPage() {
 	const [adScript, setAdScript] = useState<string>('');
 	const [creator, setCreator] = useState<string>('Kate');
 	const [loading, setLoading] = useState<boolean>(false);
+	const [pollLoading, setPollLoading] = useState<boolean>(false);
 	const [adStatus, setAdStatus] = useState<{
 		state: string;
 		progress: number;
@@ -30,7 +33,17 @@ export default function GenerateAdPage() {
 	const [generatedVideoUrl, setGeneratedVideoUrl] = useState<string>('');
 	const [creatorsList, setCreatorsList] = useState<string[]>(['Fetching...']);
 
-	const pollingAdGenStatus = async (operationId: string) => {
+	const handleVideoDownload = async () => {
+		if (generatedVideoUrl) {
+			await fileDownloader(
+				generatedVideoUrl,
+				`${creator}_${resolution}_${new Date().toISOString()}.mp4`
+			);
+			toast.success('Video downloaded!');
+		}
+	};
+
+	const pollingAdGenStatus = async (operationId: string, cleanUp: Function) => {
 		try {
 			const res = await fetch('/api/get-ad-status', {
 				method: 'POST',
@@ -49,15 +62,19 @@ export default function GenerateAdPage() {
 				url: data.result?.url,
 			});
 			if (data.result.state === 'COMPLETE' || data.result.url) {
+				cleanUp();
 				setGeneratedVideoUrl(data.result.url);
+				setPollLoading(false);
+				toast.success('Ad generated!');
 			}
 		} catch (error) {
 			console.log('Error polling ad generation status: ', error);
-		}
+		} 
 	};
 
 	const generateVideoAd = async () => {
 		try {
+			setGeneratedVideoUrl('');
 			setLoading(true);
 			const res = await fetch('/api/generate-ad', {
 				method: 'POST',
@@ -72,13 +89,18 @@ export default function GenerateAdPage() {
 				}),
 			});
 			const data = await res.json();
-			console.log('op -> ', data);
+			toast.success('Ad generation started!');
 			if (data.success) {
-				setTimeout(() => {
-					setInterval(() => {
-						pollingAdGenStatus(data.result.operationId);
+				setPollLoading(true);
+				setAdStatus({ progress: 1, state: 'QUEUED', url: '' });
+				const timeoutId = setTimeout(() => {
+					const intervalId = setInterval(() => {
+						pollingAdGenStatus(data.result.operationId, () => {
+							clearInterval(intervalId);
+							clearTimeout(timeoutId);
+						});
 					}, 5000);
-				}, 30000);
+				}, 10000);
 			}
 		} catch (error) {
 			console.log('Error generating ad video: ', error);
@@ -114,10 +136,10 @@ export default function GenerateAdPage() {
 					<div className='w-full lg:w-1/2'>
 						<form
 							onSubmit={handleSubmit}
-							className='space-y-4 border-gray-300 border p-4 rounded-xl'
+							className='space-y-4 max-md:space-y-6 border-gray-300 border p-4 rounded-xl'
 						>
 							<div>
-								<h1 className='text-2xl max-md:text-2xl mb-3 font-semibold text-cente bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600'>
+								<h1 className='text-2xl max-md:text-2xl mb-3 max-md:mb-5 font-semibold text-cente bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600'>
 									Generate AI-Powered Video Ad
 								</h1>
 								<Label className='py-2' htmlFor='script'>
@@ -199,6 +221,7 @@ export default function GenerateAdPage() {
 							<Button
 								type='submit'
 								className='w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 rounded-lg'
+								disabled={pollLoading || loading}
 							>
 								{loading ? (
 									<Image
@@ -215,8 +238,17 @@ export default function GenerateAdPage() {
 						</form>
 					</div>
 
-					<div className='w-full max-lg:h-[300px] lg:w-1/2 bg-gray-900'>
-						<div className='bg-gray-950 h-full rounded-lg overflow-hidden'>
+					<div className='w-full max-lg:min-h-[300px] lg:w-1/2 bg-gray-900'>
+						<div className='bg-gray-950 h-full rounded-lg overflow-hidden relative'>
+							{generatedVideoUrl && (
+								<Button
+									onClick={handleVideoDownload}
+									variant={'default'}
+									className='absolute top-0 right-0 m-1'
+								>
+									<DownloadIcon size={50} />
+								</Button>
+							)}
 							{adStatus.progress < 100 && adStatus.progress !== 0 && (
 								<div className='text-2xl text-center w-full h-full flex flex-col gap-2 items-center justify-center'>
 									{' '}
