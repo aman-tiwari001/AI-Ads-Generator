@@ -28,11 +28,11 @@ const Navbar = () => {
 				</Link>
 				{isSignedIn ? (
 					<div className='bg-gradient-to-r from-purple-400 to-pink-600 px-4 py-2 hover:scale-105 rounded-full'>
-						<UserButton showName />
+						<UserButton afterSignOutUrl={'/'} showName />
 					</div>
 				) : (
 					<div className='bg-gradient-to-r from-purple-400 to-pink-600 px-4 py-2 hover:scale-105 rounded-full'>
-						<SignInButton forceRedirectUrl={'/generate-ad'}/>
+						<SignInButton fallbackRedirectUrl={'/generate-ad'} forceRedirectUrl={'/generate-ad'}/>
 					</div>
 				)}
 			</div>

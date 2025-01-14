@@ -5,6 +5,7 @@ import { motion, useAnimation } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Button } from '@/components/ui/button';
 import { Play, Video, Upload, Download, ChevronRight } from 'lucide-react';
+import { SignUpButton } from '@clerk/nextjs';
 
 export default function AIAdsGeneratorLanding() {
 	const controls = useAnimation();
@@ -68,13 +69,12 @@ export default function AIAdsGeneratorLanding() {
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ delay: 0.4, duration: 0.8 }}
 				>
-					<Button
-						onClick={handleSignUp}
-						size='lg'
-						className='bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-3 px-6 rounded-full transition duration-300 transform hover:scale-105'
-					>
-						Get Started Now
-					</Button>
+					<div className='bg-gradient-to-r w-36 mx-auto from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-3 px-6 rounded-full transition duration-300 transform hover:scale-105'>
+						<SignUpButton
+							signInForceRedirectUrl={'/generate-ad'}
+							signInFallbackRedirectUrl={'/generate-ad'}
+						/>
+					</div>
 				</motion.div>
 			</header>
 

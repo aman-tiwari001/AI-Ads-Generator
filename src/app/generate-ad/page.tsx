@@ -45,7 +45,7 @@ export default function GenerateAdPage() {
 		}
 	};
 
-	const submitAdToDb = async () => {
+	const submitAdToDb = async (genAdUrl: string) => {
 		try {
 			const res = await fetch('/api/submit-ad', {
 				method: 'POST',
@@ -57,7 +57,7 @@ export default function GenerateAdPage() {
 					creatorName: creator,
 					resolution,
 					mediaUrl: mediaFiles,
-					generatedAdUrl: generatedVideoUrl,
+					generatedAdUrl: genAdUrl,
 					email: user?.emailAddresses[0].emailAddress,
 				}),
 			});
@@ -95,7 +95,7 @@ export default function GenerateAdPage() {
 				setGeneratedVideoUrl(data.result.url);
 				setPollLoading(false);
 				toast.success('Ad generated!');
-				await submitAdToDb();
+				await submitAdToDb(data.result.url);
 			}
 		} catch (error) {
 			console.log('Error polling ad generation status: ', error);
@@ -141,6 +141,10 @@ export default function GenerateAdPage() {
 
 	const handleSubmit = (event: React.FormEvent) => {
 		event.preventDefault();
+		if(!mediaFiles.length) {
+			toast.error('Upload media files');
+			return;
+		}
 		generateVideoAd();
 	};
 

@@ -29,7 +29,6 @@ export default function RootLayout({
 	return (
 		<ClerkProvider
 			appearance={{ baseTheme: dark }}
-			redirectUrl={'/generate-ad'}
 		>
 			<html lang='en' className='scrollbar-hide'>
 				<body
