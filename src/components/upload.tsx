@@ -2,18 +2,18 @@
 
 import { FileUploaderRegular } from '@uploadcare/react-uploader/next';
 import '@uploadcare/react-uploader/core.css';
-
+//  @typescript-eslint/no-explicit-any
 interface UploadFileProps {
 	type: 'script' | 'media';
 	data?: string | string[];
-	setUploadData?: (data: string[]) => void;
+	setUploadData?: (data: any) => any;
 }
 // @typescript-eslint/no-explicit-any
 const handleUploadedFile = async (
 	file: unknown,
-	setUploadData: (data: string) => void
+	setUploadData: (data: any) => any
 ) => {
-	const res = await fetch(file.cdnUrl);
+	const res = await fetch((file as { cdnUrl: string }).cdnUrl);
 	const text = await res.text();
 	console.log('cdn -> ', text);
 	setUploadData(text);
@@ -21,10 +21,10 @@ const handleUploadedFile = async (
 
 const handleMediaUpload = async (
 	file: unknown,
-	setUploadData: (data: string[]) => void,
+	setUploadData: (data: any) => any,
 	data: string[]
 ) => {
-	const fileUrl = file.cdnUrl;
+	const fileUrl = (file as { cdnUrl: string }).cdnUrl;
 	setUploadData([...data, fileUrl]);
 };
 
@@ -41,7 +41,7 @@ const UploadFile: React.FC<UploadFileProps> = ({
 				pubkey={process.env.NEXT_PUBLIC_UPLOADCARE_PUBLIC_KEY || ''}
 				accept={type === 'script' ? 'text/plain' : '.JPEG,.PNG,.MOV,.MP4'}
 				onFileUploadSuccess={(file) => {
-					if (type === 'script')
+					if (type === 'script' && setUploadData)
 						handleUploadedFile(file, setUploadData);
 					else
 						handleMediaUpload(
