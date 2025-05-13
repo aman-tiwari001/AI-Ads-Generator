@@ -157,7 +157,7 @@ export default function GenerateAdPage() {
 			try {
 				const response = await fetch('/api/get-creators-list');
 				const data = await response.json();
-				let list = data.result.supportedCreators.map((creator: string) => {
+				const list = data.result.supportedCreators.map((creator: string) => {
 					return {
 						creatorName: creator,
 						creatorImage: data.result.thumbnails[creator].imageUrl,
