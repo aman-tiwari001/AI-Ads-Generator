@@ -31,7 +31,14 @@ export default function GenerateAdPage() {
 	const [resolution, setResolution] = useState<'4k' | 'fhd'>('4k');
 	const [mediaFiles, setMediaFiles] = useState<string[]>([]);
 	const [generatedVideoUrl, setGeneratedVideoUrl] = useState<string>('');
-	const [creatorsList, setCreatorsList] = useState<string[]>(['Fetching...']);
+	const [creatorsList, setCreatorsList] = useState<
+		{ creatorName: string; creatorImage: string }[]
+	>([
+		{
+			creatorName: 'Fetching',
+			creatorImage: '/loader.svg',
+		},
+	]);
 	const { user } = useUser();
 
 	const handleVideoDownload = async () => {
@@ -138,7 +145,7 @@ export default function GenerateAdPage() {
 
 	const handleSubmit = (event: React.FormEvent) => {
 		event.preventDefault();
-		if(!mediaFiles.length) {
+		if (!mediaFiles.length) {
 			toast.error('Upload media files');
 			return;
 		}
@@ -150,7 +157,14 @@ export default function GenerateAdPage() {
 			try {
 				const response = await fetch('/api/get-creators-list');
 				const data = await response.json();
-				setCreatorsList(data.result.supportedCreators);
+				let list = data.result.supportedCreators.map((creator: string) => {
+					return {
+						creatorName: creator,
+						creatorImage: data.result.thumbnails[creator].imageUrl,
+					};
+				});
+				console.log('Creators list: ', list);
+				setCreatorsList(list);
 			} catch (error) {
 				console.log('Error fetching creators list: ', error);
 			}
@@ -201,16 +215,28 @@ export default function GenerateAdPage() {
 							</div>
 							<div>
 								<Label className='py-2' htmlFor='creator'>
-									Creator <span className='text-red-500'>*</span>
+								 AI	Creator <span className='text-red-500'>*</span>
 								</Label>
 								<Select onValueChange={setCreator} defaultValue='Kate' required>
-									<SelectTrigger className='bg-gray-800 text-white rounded-lg'>
+									<SelectTrigger className='bg-gray-800 h-20 text-white rounded-lg'>
 										<SelectValue placeholder='Select a creator' />
 									</SelectTrigger>
 									<SelectContent className='bg-gray-800 text-white'>
 										{creatorsList.map((creator) => (
-											<SelectItem key={creator} value={creator}>
-												{creator}
+											<SelectItem
+												key={creator.creatorName}
+												value={creator.creatorName}
+											>
+												<div className='flex items-center gap-2'>
+													<Image
+														src={creator.creatorImage}
+														alt={creator.creatorName}
+														width={30}
+														height={30}
+														className='rounded-full w-10 border border-white'
+													/>
+													{creator.creatorName}
+												</div>
 											</SelectItem>
 										))}
 									</SelectContent>

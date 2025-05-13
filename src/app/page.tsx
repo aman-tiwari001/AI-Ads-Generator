@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Play, Video, Upload, Download, ChevronRight } from 'lucide-react';
-import { SignUpButton } from '@clerk/nextjs';
+import { SignedIn, SignedOut, SignUpButton } from '@clerk/nextjs';
 
 export default function AIAdsGeneratorLanding() {
 	const controls = useAnimation();
@@ -64,12 +64,19 @@ export default function AIAdsGeneratorLanding() {
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ delay: 0.4, duration: 0.8 }}
 				>
-					<div className='bg-gradient-to-r w-36 mx-auto from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-3 px-6 rounded-full transition duration-300 transform hover:scale-105'>
-						<SignUpButton
-							signInForceRedirectUrl={'/generate-ad'}
-							signInFallbackRedirectUrl={'/generate-ad'}
-						/>
-					</div>
+					<SignedOut>
+						<div className='bg-gradient-to-r w-36 mx-auto from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-3 px-6 rounded-full transition duration-300 transform hover:scale-105'>
+							<SignUpButton mode='modal' forceRedirectUrl={'/generate-ad'} />
+						</div>
+					</SignedOut>
+					<SignedIn>
+						<a
+							href='/generate-ad'
+							className='bg-gradient-to-r w-36 mx-auto from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-3 px-6 rounded-full transition duration-300 transform hover:scale-105'
+						>
+							Get Started
+						</a>
+					</SignedIn>
 				</motion.div>
 			</header>
 

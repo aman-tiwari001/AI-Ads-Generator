@@ -1,5 +1,11 @@
 'use client';
-import { SignInButton, useAuth, UserButton } from '@clerk/nextjs';
+import {
+	SignedIn,
+	SignedOut,
+	SignInButton,
+	useAuth,
+	UserButton,
+} from '@clerk/nextjs';
 import { FileVideoIcon, HistoryIcon, PlusCircleIcon } from 'lucide-react';
 import Link from 'next/link';
 
@@ -16,25 +22,28 @@ const Navbar = () => {
 				</div>
 			</Link>
 			<div className='text-white flex gap-10'>
-				<Link href='/history' className='max-sm:hidden'>
-					<div className='flex gap-1 items-center bg-gray-950 rounded-full p-2 font-semibold border-[#db2777] border-2 text-[#db2777] cursor-pointer hover:bg-gray-900'>
-						<HistoryIcon color='#db2777' /> Ads History
-					</div>
-				</Link>
+				{isSignedIn && (
+					<Link href='/history' className='max-sm:hidden'>
+						<div className='flex gap-1 items-center bg-gray-950 rounded-full p-2 font-semibold border-[#db2777] border-2 text-[#db2777] cursor-pointer hover:bg-gray-900'>
+							<HistoryIcon color='#db2777' /> Ads History
+						</div>
+					</Link>
+				)}
 				<Link href='/generate-ad' className='max-sm:hidden'>
 					<div className='flex gap-1 items-center bg-gray-950 rounded-full p-2 font-semibold border-[#db2777] border-2 text-[#db2777] cursor-pointer hover:bg-gray-900'>
 						<PlusCircleIcon color='#db2777' /> Generate Ad
 					</div>
 				</Link>
-				{isSignedIn ? (
+				<SignedOut>
 					<div className='bg-gradient-to-r from-purple-400 to-pink-600 px-4 py-2 hover:scale-105 rounded-full'>
-						<UserButton afterSignOutUrl={'/'} showName />
+						<SignInButton mode='modal' forceRedirectUrl={'/generate-ad'} />
 					</div>
-				) : (
+				</SignedOut>
+				<SignedIn>
 					<div className='bg-gradient-to-r from-purple-400 to-pink-600 px-4 py-2 hover:scale-105 rounded-full'>
-						<SignInButton fallbackRedirectUrl={'/generate-ad'} forceRedirectUrl={'/generate-ad'}/>
+						<UserButton showName />
 					</div>
-				)}
+				</SignedIn>
 			</div>
 		</nav>
 	);
