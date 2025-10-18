@@ -1,5 +1,5 @@
 # 🤖 AI Ads Generator 🚀
-<i>~ A Full-Stack Next.js Project using TypeScript</i>
+<i>~ A modern **Full-Stack Next.js** Project using **TypeScript**</i>
 
 This application is a full-stack platform that allows users to generate high-quality, AI-powered video advertisements. Users can provide a script oe text, choose an AI creator avatar, upload their own media assets, and generate a customized video ad ready for download and use.
 
@@ -121,3 +121,4 @@ The core backend logic is handled through the following API routes:
 -   `GET /api/get-creators-list`: Fetches the list of available AI creators and their thumbnails from the external service.
 -   `POST /api/get-user`: Retrieves a user's profile and their associated ad history from the database.
 -   `POST /api/submit-ad`: Uploads the final generated video to Cloudinary and saves the ad metadata to the database.
+
