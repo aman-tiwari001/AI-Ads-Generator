@@ -12,9 +12,12 @@ export const connectToDb = async (): Promise<void> => {
 			console.log('Already connected to the database');
 			return;
 		}
-		const db = await mongoose.connect(
-			process.env.MONGODB_URI || 'mongodb://localhost:27017/ai-ads-generator'
-		);
+		const mongDbUri = process.env.MONGODB_URI;
+		if (!mongDbUri) {
+			throw new Error('MONGODB_URI is not defined in environment variables');
+		}
+
+		const db = await mongoose.connect(mongDbUri, { dbName: 'ai-ads-db' });
 		connection.isConnected = db.connections[0].readyState;
 		console.log('Connected to database');
 	} catch (error) {

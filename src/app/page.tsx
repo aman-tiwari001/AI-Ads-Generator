@@ -66,7 +66,12 @@ export default function AIAdsGeneratorLanding() {
 				>
 					<SignedOut>
 						<div className='bg-gradient-to-r w-36 mx-auto from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-3 px-6 rounded-full transition duration-300 transform hover:scale-105'>
-							<SignUpButton mode='modal' forceRedirectUrl={'/generate-ad'} />
+							<SignUpButton
+								mode='modal'
+								forceRedirectUrl={'/generate-ad'}
+								fallbackRedirectUrl={'/generate-ad'}
+								signInForceRedirectUrl={'/generate-ad'}
+							/>
 						</div>
 					</SignedOut>
 					<SignedIn>
